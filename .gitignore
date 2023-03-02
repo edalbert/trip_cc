@@ -14,8 +14,6 @@ pickle-email-*.html
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
-!/log/.keep
-!/tmp/.keep
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
@@ -64,4 +62,7 @@ yarn-debug.log*
 
 # Ignore uploaded files in development
 /storage/*
-!/storage/.keep
+.idea
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
