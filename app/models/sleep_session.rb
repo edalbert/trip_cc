@@ -6,7 +6,7 @@
 #  end_time   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  users_id   :integer
+#  user_id    :integer
 #
 class SleepSession < ApplicationRecord
   belongs_to :user
