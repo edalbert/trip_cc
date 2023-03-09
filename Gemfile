@@ -48,6 +48,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'pry'
+  gem 'timecop'
 end
 
 group :development do
