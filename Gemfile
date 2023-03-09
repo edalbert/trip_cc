@@ -44,6 +44,7 @@ group :development, :test do
   gem 'annotate'
   gem 'faker'
   gem 'rspec-rails'
+  gem 'pry'
 end
 
 group :development do
