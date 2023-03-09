@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   post '/users/:followed_id/follow', to: 'followings#create'
+  delete '/users/:followed_id/unfollow', to: 'followings#delete'
 end

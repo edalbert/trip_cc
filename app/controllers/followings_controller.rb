@@ -3,6 +3,10 @@ class FollowingsController < ApplicationController
     Following.create(followings_params)
   end
 
+  def delete
+    Following.find_by(followings_params).delete
+  end
+
   private
 
   def followings_params
