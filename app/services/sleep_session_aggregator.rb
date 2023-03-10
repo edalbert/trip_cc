@@ -10,7 +10,7 @@ class SleepSessionAggregator
 
   # order sleep sessions by created_at
   def aggregate
-    relation = user.sleep_sessions.order('created_at desc')
+    relation = user.sleep_sessions.where.not(end_time: nil).order('created_at desc')
 
     relation = relation.where('created_at >= ? ', from) if from.present?
     relation.paginate(page: page_number, per_page: page_size)

@@ -21,9 +21,9 @@ describe SleepSessionsController do
 
     context 'when user has multiple sleep sessions' do
       before do
-        user.sleep_sessions.create(start_time: Time.now)
+        create :sleep_session, user: user, start_time: Time.now
         Timecop.travel(2.days.after)
-        user.sleep_sessions.create(start_time: Time.now)
+        create :sleep_session, user: user, start_time: Time.now
       end
 
       it 'returns all of the sleep sessions' do
