@@ -45,5 +45,17 @@ describe SleepSessionAggregator do
       expect(results.size).to eq(2)
       expect(results.map(&:id)).to eq([sleep_session_2.id, sleep_session_1.id])
     end
+
+    context 'when providing a from option' do
+      let(:params) { { user_id: user.id, page_number: 1, page_size: 50, from: 3.days.ago.utc } }
+      let(:service) { described_class.new(**params) }
+
+      it 'returns only 1 sleep session' do
+        results = service.aggregate
+
+        expect(results.size).to eq(2)
+        expect(results.map(&:id)).to eq([sleep_session_2.id, sleep_session_1.id])
+      end
+    end
   end
 end
