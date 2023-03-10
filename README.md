@@ -1,3 +1,5 @@
+Notion Board: https://cake-olivine-4a0.notion.site/becc4f77c7864a98ad4f6f18bde3e669?v=8c3b057390e946338a0ed566a5a759ce
+
 # README
 
 ## Premise
@@ -48,3 +50,4 @@ Unfollow a user
 
 params:
   - `followed_id` - ID of user to be unfollowed
+  
