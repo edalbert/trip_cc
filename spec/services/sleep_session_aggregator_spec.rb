@@ -57,5 +57,32 @@ describe SleepSessionAggregator do
         expect(results.map(&:id)).to eq([sleep_session_2.id, sleep_session_1.id])
       end
     end
+
+    context 'when providing options for complete_only' do
+      let(:params) do
+        { user_id: user.id, page_number: 1, page_size: 50, from: 3.days.ago.utc, complete_only: complete_only }
+      end
+      let(:service) { described_class.new(**params) }
+
+      context 'when complete_only is true' do
+        let(:complete_only) { true }
+        before { create :sleep_session, user: user, end_time: nil }
+
+        it 'returns all sleep sessions that have end_time values' do
+          expect(user.sleep_sessions.size).to eq(3)
+          expect(service.aggregate.size).to eq(2)
+        end
+      end
+
+      context 'when complete_only is false' do
+        let(:complete_only) { false }
+        before { create :sleep_session, user: user, end_time: nil }
+
+        it 'returns all sleep sessions that have end_time values' do
+          expect(user.sleep_sessions.size).to eq(3)
+          expect(service.aggregate.size).to eq(3)
+        end
+      end
+    end
   end
 end
