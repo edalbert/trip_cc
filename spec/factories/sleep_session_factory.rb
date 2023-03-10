@@ -9,8 +9,10 @@
 #  user_id    :integer
 #  start_time :datetime
 #
-class SleepSession < ApplicationRecord
-  self.per_page = 500
+require 'faker'
 
-  belongs_to :user
+FactoryBot.define do
+  factory :sleep_session do
+    association :user
+  end
 end

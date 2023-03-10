@@ -6,7 +6,8 @@
 #  end_time   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  users_id   :integer
+#  user_id    :integer
+#  start_time :datetime
 #
 
 # This model initially had no columns defined. If you add columns to the

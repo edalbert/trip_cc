@@ -6,7 +6,8 @@
 #  end_time   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  users_id   :integer
+#  user_id    :integer
+#  start_time :datetime
 #
 require "test_helper"
 
