@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  post '/users/:followed_id/follow', to: 'followings#create'
-  delete '/users/:followed_id/unfollow', to: 'followings#delete'
+  scope :users do
+    post '/:user_id/clock_in', to: 'sleep_sessions#create'
+
+    post '/:followed_id/follow', to: 'followings#create'
+    delete '/:followed_id/unfollow', to: 'followings#delete'
+  end
 end
