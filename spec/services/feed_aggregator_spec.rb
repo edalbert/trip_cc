@@ -8,16 +8,29 @@ describe FeedAggregator do
 
   before { user.followed << followed_user }
 
-  describe '#sleep_sessions' do
+  describe '#aggregate' do
     let(:sleep_session_from_beyond_7_days) do
       create :sleep_session, user_id: followed_user.id
     end
+
+    let(:one_hour_sleep) do
+      create :sleep_session, user: followed_user, start_time: Time.now, end_time: 1.hour.after
+    end
+
+    let(:five_hour_sleep) do
+      create :sleep_session, user: followed_user, start_time: Time.now, end_time: 5.hour.after
+    end
+
+    let(:eight_hour_sleep) do
+      create :sleep_session, user: followed_user, start_time: Time.now, end_time: 8.hour.after
+    end
+
     let(:params) { { user_id: user.id } }
     before do
       Timecop.travel(8.days.ago)
       sleep_session_from_beyond_7_days
       Timecop.travel(3.days.after)
-      create_list :sleep_session, 3, user_id: followed_user.id
+      one_hour_sleep && five_hour_sleep && eight_hour_sleep
       Timecop.return
     end
 
@@ -27,6 +40,13 @@ describe FeedAggregator do
 
         expect(sessions.keys).to eq([followed_user.id])
         expect(sessions[followed_user.id][:sleep_sessions].size).to eq(3)
+      end
+
+      it 'orders by sleep duration' do
+        sessions = service.aggregate
+
+        ids = sessions[followed_user.id][:sleep_sessions].map { |ss| ss[:id] }
+        expect(ids).to eq([eight_hour_sleep.id, five_hour_sleep.id, one_hour_sleep.id])
       end
     end
 
