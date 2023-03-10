@@ -45,4 +45,41 @@ describe SleepSessionsController do
       end
     end
   end
+
+  describe '#feed' do
+    let(:request) { -> { get :feed, params: params } }
+
+    let(:params) { { user_id: user.id } }
+
+    context 'when a user does not follow anyone' do
+      it 'returns an empty hash' do
+        request.call
+        expect(parsed_response).to eq({})
+      end
+    end
+
+    context 'when a user follows other users' do
+      let(:params) { { user_id: user.id, from: 2.days.ago }}
+      let(:another_user) { create :user }
+      let(:sleep_session) { create :sleep_session, user: another_user }
+      before do
+        user.followed << another_user
+        Timecop.travel(3.days.ago)
+        create_list :sleep_session, 3, user_id: another_user.id
+
+        Timecop.return
+        sleep_session
+      end
+
+      it 'returns only sleep sessions from a certain point in time' do
+        request.call
+
+        result = parsed_response[another_user.id.to_s]['sleep_sessions']
+        expect(result.size).to eq(1)
+
+        ids = result.map { |x| x['id'] }
+        expect(ids).to eq([sleep_session.id])
+      end
+    end
+  end
 end
