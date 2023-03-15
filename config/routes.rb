@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope :users do
     get '/:user_id/feed', to: 'sleep_sessions#feed'
     post '/:user_id/clock_in', to: 'sleep_sessions#create'
+    patch '/:user_id/clock_out', to: 'sleep_sessions#update'
 
     post '/:followed_id/follow', to: 'followings#create'
     delete '/:followed_id/unfollow', to: 'followings#delete'

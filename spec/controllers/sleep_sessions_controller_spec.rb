@@ -45,6 +45,33 @@ describe SleepSessionsController do
       end
     end
   end
+  describe '#update' do
+    let(:request) { -> { patch :update, params: params } }
+    let(:params) { { user_id: user.id, sleep_session_id: sleep_session.id } }
+    let(:sleep_session) { create :sleep_session, user: user, end_time: nil }
+
+    it 'updates a sleep_session`s` end_time with a value' do
+      request.call
+      expect(sleep_session.reload.end_time).to_not be_nil# change(sleep_session, :end_time)
+    end
+
+    context 'when the sleep session does not belong to the user' do
+      let(:another_user) { create :user }
+      let(:sleep_session) { create :sleep_session, user: another_user, end_time: nil }
+
+      it 'wont find the sleep session' do
+        expect { request.call }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when the sleep session is already clocked out' do
+      let(:sleep_session) { create :sleep_session, user: user }
+
+      it 'raises an error' do
+        expect { request.call }.to raise_error('Sleep session is already clocked out.')
+      end
+    end
+  end
 
   describe '#feed' do
     let(:request) { -> { get :feed, params: params } }
